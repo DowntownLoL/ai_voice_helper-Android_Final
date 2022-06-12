@@ -11,9 +11,20 @@ import com.example.lib_base.helper.ARouterHelper
 
 @Route(path = ARouterHelper.PATH_VOICE_SETTING)
 class VoiceSettingActivity : BaseActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_voice_setting)
+    override fun getLayoutId(): Int {
+        return R.layout.activity_voice_setting
     }
+
+    override fun getTitleText(): String {
+        return getString(com.example.lib_base.R.string.app_title_voice_setting)
+    }
+
+    override fun isShowBack(): Boolean {
+        return true
+    }
+
+    override fun initView() {
+
+    }
+
 }

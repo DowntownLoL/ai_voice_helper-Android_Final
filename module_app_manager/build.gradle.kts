@@ -8,16 +8,16 @@ plugins {
     }
 //    id("org.jetbrains.kotlin.android")
     kotlin("android")
-//    kotlin("android.extensions")
+    kotlin("android.extensions")
     kotlin("kapt")
 }
 
 android {
     compileSdk =  AppConfig.compileSdk
 
-    buildFeatures {
-        viewBinding = true
-    }
+//    buildFeatures {
+//        viewBinding = true
+//    }
 
     defaultConfig {
         minSdk = AppConfig.minSdk

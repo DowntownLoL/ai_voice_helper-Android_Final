@@ -2,16 +2,16 @@ plugins {
     id("com.android.library")
 //    id("org.jetbrains.kotlin.android")
     kotlin("android")
-//    kotlin("android.extensions")
+    kotlin("android.extensions")
     kotlin("kapt")
 }
 
 android {
     compileSdk =  AppConfig.compileSdk
 
-    buildFeatures {
-        viewBinding = true
-    }
+//    buildFeatures {
+//        viewBinding = true
+//    }
 
     defaultConfig {
         minSdk = AppConfig.minSdk
@@ -52,8 +52,10 @@ dependencies {
     api(DependenciesConfig.EVENT_BUS)
     // ARouter
     api(DependenciesConfig.AROUTER)
-    // 运行时注解
+    // ARouter运行时注解
     kapt(DependenciesConfig.AROUTER_COMPILER)
+    // RecyclerView
+    api(DependenciesConfig.RECYCLERVIEW)
 
     api(project(":lib_voice"))
     api(project(":lib_network"))

@@ -30,11 +30,13 @@ object DependenciesConfig {
     const val AROUTER = "com.alibaba:arouter-api:1.5.2"
     const val AROUTER_COMPILER = "com.alibaba:arouter-compiler:1.5.2"
 
+    // RecycleView
+    const val RECYCLERVIEW = "androidx.recyclerview:recyclerview:1.2.1"
 }
 
 object ModuleConfig {
     // 八个Module是否为App？
-    var isApp = false
+    var isApp = true
 
     const val MODULE_APP_MANAGER = "com.example.module_app_manager"
     const val MODULE_CONSTELLATION = "com.example.module_constellation"

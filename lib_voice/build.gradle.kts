@@ -30,4 +30,8 @@ android {
 
 dependencies {
     api(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    // 百度语音识别库
+    api(files("libs/baiduasr.jar"))
+    // 百度语音合成库
+    api(files("libs/baidutts.jar"))
 }
