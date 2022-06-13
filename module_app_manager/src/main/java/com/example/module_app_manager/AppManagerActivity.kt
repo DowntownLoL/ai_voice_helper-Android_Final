@@ -1,6 +1,6 @@
 /**
  * @author: Zhang
- * @profile: 应用管理App
+ * @description: 应用管理App
  */
 package com.example.module_app_manager
 

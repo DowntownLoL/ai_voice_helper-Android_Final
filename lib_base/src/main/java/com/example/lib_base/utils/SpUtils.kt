@@ -1,6 +1,6 @@
 /**
  * @author: Zhang
- * @profile: SP封装
+ * @description: SP封装
  */
 package com.example.lib_base.utils
 

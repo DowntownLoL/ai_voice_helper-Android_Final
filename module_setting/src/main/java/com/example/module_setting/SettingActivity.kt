@@ -1,6 +1,6 @@
 /**
  * @author: Zhang
- * @profile: App设置
+ * @description: App设置
  */
 package com.example.module_setting
 

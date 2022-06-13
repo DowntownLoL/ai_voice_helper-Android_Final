@@ -1,6 +1,6 @@
 /**
  * @author: Zhang
- * @profile: 路由帮助类
+ * @description: 路由帮助类
  * @link: https://github.com/alibaba/ARouter
  */
 package com.example.lib_base.helper

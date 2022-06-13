@@ -1,6 +1,6 @@
 /**
  * @author: Zhang
- * @profile: 笑话
+ * @description: 笑话
  */
 package com.example.module_joke
 

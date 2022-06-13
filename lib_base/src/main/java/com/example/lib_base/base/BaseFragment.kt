@@ -1,6 +1,6 @@
 /**
  * @author: Zhang
- * @profile: BaseFragment
+ * @description: BaseFragment
  */
 package com.example.lib_base.base
 

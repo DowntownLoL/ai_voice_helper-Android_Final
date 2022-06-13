@@ -1,6 +1,6 @@
 /**
  * @author: Zhang
- * @profile: 基类App
+ * @description: 基类App
  */
 
 package com.example.lib_base.base

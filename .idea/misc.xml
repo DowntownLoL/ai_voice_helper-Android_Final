@@ -14,6 +14,7 @@
         <entry key="module_map/src/main/res/layout/activity_map.xml" value="0.1" />
         <entry key="module_setting/src/main/res/layout/activity_setting.xml" value="0.1" />
         <entry key="module_voice_setting/src/main/res/layout/activity_voice_setting.xml" value="0.1" />
+        <entry key="module_voice_setting/src/main/res/layout/tts_people_list.xml" value="0.2125" />
         <entry key="module_weather/src/main/res/layout/activity_weather.xml" value="0.1" />
       </map>
     </option>

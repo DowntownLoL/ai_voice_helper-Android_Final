@@ -1,6 +1,6 @@
 /**
  * @author: Zhang
- * @profile: 百度TTS封装
+ * @description: 百度TTS封装
  * @link: 百度官方文档： https://ai.baidu.com/ai-doc/SPEECH/Yk843u2m5
  */
 
@@ -14,12 +14,14 @@ import com.baidu.tts.client.SpeechSynthesizerListener
 import com.baidu.tts.client.TtsMode
 import com.example.lib_voice.manager.VoiceManager
 
-
 object VoiceTTS : SpeechSynthesizerListener {
 
     private var TAG = VoiceTTS::class.java.simpleName
 
     private lateinit var mSpeechSynthesizer: SpeechSynthesizer  // 获取 SpeechSynthesizer 实例
+
+    // 接口对象
+    private var mOnTTSResultListener: OnTTSResultListener? = null
 
     // 初始化
     fun initTTS(mContext: Context) {
@@ -33,14 +35,30 @@ object VoiceTTS : SpeechSynthesizerListener {
         // 设置监听
         mSpeechSynthesizer.setSpeechSynthesizerListener(this)
 
+        // 初始化声音属性
         // 发声人
-        mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEAKER, "5118")
+        setPeople("5118")
         // 语速
-        mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEED,"6")
+        setSpeed("6")
         // 音量
-        mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_VOLUME,"8")
+        setVoiceVolume("8")
         // 初始化
         mSpeechSynthesizer.initTts(TtsMode.ONLINE)  // 纯在线
+    }
+
+    // 设置发音人
+    fun setPeople(people: String) {
+        mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEAKER, people)
+    }
+
+    // 设置语速
+    fun setSpeed(speed: String) {
+        mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEED, speed)
+    }
+
+    // 设置音量
+    fun setVoiceVolume(volume: String) {
+        mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_VOLUME, volume)
     }
 
     override fun onSynthesizeStart(p0: String?) {
@@ -64,15 +82,17 @@ object VoiceTTS : SpeechSynthesizerListener {
     }
 
     override fun onSpeechFinish(p0: String?) {
-        Log.i(TAG, "合成结束")
+        Log.i(TAG, "播放结束")
+        mOnTTSResultListener?.ttsEnd()
     }
 
     override fun onError(p0: String?, p1: SpeechError?) {
         Log.i(TAG, "TTS Error!: $p0:$p1")
     }
 
-    // 播放text
-    fun start(text: String) {
+    // 播放text并且有回调
+    fun start(text: String, mOnTTSResultListener: OnTTSResultListener?) {
+        this.mOnTTSResultListener = mOnTTSResultListener
         mSpeechSynthesizer.speak(text)
     }
 
@@ -94,5 +114,12 @@ object VoiceTTS : SpeechSynthesizerListener {
     // 释放资源
     fun release() {
         mSpeechSynthesizer.release()
+    }
+
+    // 接口
+    interface OnTTSResultListener {
+
+        // 播放结束
+        fun ttsEnd()
     }
 }

@@ -10,9 +10,31 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
+    <!-- 解决Error -127问题 -->
+    <permission-group android:name="${applicationId}.andpermission"/>
 
     <application>
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false"/>
+
+        <meta-data
+            android:name="com.baidu.speech.APP_ID"
+            android:value="26390086"/>
+
+        <meta-data
+            android:name="com.baidu.speech.API_KEY"
+            android:value="I1Y5SKxE5oaSfBTXCqg0RhV4"/>
+
+        <meta-data
+            android:name="com.baidu.speech.SECRET_KEY"
+            android:value="np3AamYRnSNNDnxHulcmMKWqLiQdt16P"/>
+
         <service android:name=".service.InitService"/>
+
     </application>
 
 </manifest>

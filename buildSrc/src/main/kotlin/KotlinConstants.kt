@@ -1,6 +1,6 @@
 /**
- * Author: Zhang
- * Profile: Kotlin常量
+ * @author: Zhang
+ * @description: Kotlin常量
  */
 
 object KotlinConstants {
@@ -32,11 +32,14 @@ object DependenciesConfig {
 
     // RecycleView
     const val RECYCLERVIEW = "androidx.recyclerview:recyclerview:1.2.1"
+
+    //Permissions
+    const val AND_PERMISSIONS = "com.yanzhenjie:permission:2.0.3"
 }
 
 object ModuleConfig {
     // 八个Module是否为App？
-    var isApp = true
+    var isApp = false
 
     const val MODULE_APP_MANAGER = "com.example.module_app_manager"
     const val MODULE_CONSTELLATION = "com.example.module_constellation"

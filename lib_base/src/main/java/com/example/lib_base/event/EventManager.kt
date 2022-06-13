@@ -1,6 +1,6 @@
 /**
  * @author: Zhang
- * @profile: EventBus 管理
+ * @description: EventBus 管理
  * @link: https://github.com/greenrobot/EventBus
  */
 package com.example.lib_base.event

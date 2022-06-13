@@ -1,6 +1,6 @@
 /**
  * @author: Zhang
- * @profile: 日志
+ * @description: 日志
  */
 
 package com.example.lib_base.utils

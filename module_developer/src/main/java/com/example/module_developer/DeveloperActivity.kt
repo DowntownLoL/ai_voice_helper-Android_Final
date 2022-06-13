@@ -1,9 +1,10 @@
 /**
  * @author: Zhang
- * @profile: 开发者模式 用于测试功能
+ * @description: 开发者模式 用于测试功能
  */
 package com.example.module_developer
 
+import android.util.Log
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -12,6 +13,7 @@ import com.example.lib_base.base.adapter.CommonAdapter
 import com.example.lib_base.base.adapter.CommonViewHolder
 import com.example.lib_base.helper.ARouterHelper
 import com.example.lib_voice.manager.VoiceManager
+import com.example.lib_voice.tts.VoiceTTS
 import com.example.module_developer.data.DeveloperListData
 import kotlinx.android.synthetic.main.activity_developer.*
 
@@ -123,11 +125,14 @@ class DeveloperActivity : BaseActivity() {
             6 -> ARouterHelper.startActivity(ARouterHelper.PATH_VOICE_SETTING)
             7 -> ARouterHelper.startActivity(ARouterHelper.PATH_WEATHER)
 
-            20 -> VoiceManager.start("这是一段简短的文字内容，用于测试语音")
-            21 -> VoiceManager.pause()
-            22 -> VoiceManager.resume()
-            23 -> VoiceManager.stop()
-            24 -> VoiceManager.release()
+            14 -> VoiceManager.startWakeUp()
+            15-> VoiceManager.stopWakeUp()
+
+            20 -> VoiceManager.ttsStart("这是一段简短的文字内容，用于测试语音")
+            21 -> VoiceManager.ttsPause()
+            22 -> VoiceManager.ttsResume()
+            23 -> VoiceManager.ttsStop()
+            24 -> VoiceManager.ttsRelease()
         }
     }
 

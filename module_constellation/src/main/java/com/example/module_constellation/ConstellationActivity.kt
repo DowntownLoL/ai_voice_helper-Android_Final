@@ -1,6 +1,6 @@
 /**
  * @author: Zhang
- * @profile: 星座
+ * @description: 星座
  */
 package com.example.module_constellation
 

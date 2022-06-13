@@ -15,9 +15,12 @@ import com.example.lib_base.event.MessageEvent
 import com.example.lib_base.helper.ARouterHelper
 import com.example.lib_base.utils.L
 import com.example.lib_base.utils.SpUtils
+import com.yanzhenjie.permission.AndPermission
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import kotlinx.android.synthetic.main.activity_main.*
+import com.yanzhenjie.permission.Action
+import com.yanzhenjie.permission.runtime.Permission
 
 class MainActivity : BaseActivity() {
 
@@ -34,8 +37,13 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initView() {
-        startService(Intent(this,VoiceService::class.java))
-        ARouterHelper.startActivity(ARouterHelper.PATH_DEVELOPER)
+        startService(Intent(this, VoiceService::class.java))
+
+        AndPermission.with(this)
+            .runtime()
+            .permission(Permission.RECORD_AUDIO)
+            .onGranted { ARouterHelper.startActivity(ARouterHelper.PATH_DEVELOPER) }
+            .start()
     }
 
 }

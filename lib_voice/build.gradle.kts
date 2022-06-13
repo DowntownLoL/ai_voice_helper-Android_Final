@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    kotlin("android.extensions")
 }
 
 android {
@@ -26,6 +27,12 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+//    repositories{
+//        flatDir{
+//            dirs("libs")
+//        }
+//    }
 }
 
 dependencies {

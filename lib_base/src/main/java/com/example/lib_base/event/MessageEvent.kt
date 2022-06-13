@@ -1,6 +1,6 @@
 /**
  * @author: Zhang
- * @profile: EventBus 使用 Step.1 —— 事件对象
+ * @description: EventBus 使用 Step.1 —— 事件对象
  * @link: https://github.com/greenrobot/EventBus
  */
 

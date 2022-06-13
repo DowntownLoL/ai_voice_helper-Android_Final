@@ -56,6 +56,8 @@ dependencies {
     kapt(DependenciesConfig.AROUTER_COMPILER)
     // RecyclerView
     api(DependenciesConfig.RECYCLERVIEW)
+    // AndPermissions
+    api(DependenciesConfig.AND_PERMISSIONS)
 
     api(project(":lib_voice"))
     api(project(":lib_network"))

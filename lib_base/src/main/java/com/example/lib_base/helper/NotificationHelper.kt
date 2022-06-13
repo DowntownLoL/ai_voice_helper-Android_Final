@@ -1,6 +1,6 @@
 /**
  * @author: Zhang
- * @profile: 通知栏选项的设置 Notification
+ * @description: 通知栏选项的设置 Notification
  * @note: runInitService() -> init渠道
  *                         -> MainActivity -> OnCreate -> run VoiceService()
  *       init渠道和MainActivity存在异步操作会报错（FATAL EXCEPTION）

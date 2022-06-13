@@ -1,6 +1,6 @@
 /**
  * @author: Zhang
- * @profile: IntentService 初始化服务
+ * @description: IntentService 初始化服务
  */
 
 package com.example.lib_base.service
