@@ -10,8 +10,12 @@ import android.util.Log
 import com.baidu.speech.EventListener
 import com.baidu.speech.asr.SpeechConstant
 import com.baidu.tts.client.SpeechSynthesizer
+import com.example.lib_voice.asr.VoiceAsr
+import com.example.lib_voice.impl.OnAsrResultListener
 import com.example.lib_voice.tts.VoiceTTS
 import com.example.lib_voice.wakeup.VoiceWakeUp
+import com.example.lib_voice.words.WordsTools
+import org.json.JSONObject
 
 object VoiceManager : EventListener {
 
@@ -22,9 +26,15 @@ object VoiceManager : EventListener {
     const val VOICE_APP_KEY = "I1Y5SKxE5oaSfBTXCqg0RhV4"
     const val VOICE_APP_SECRET = "np3AamYRnSNNDnxHulcmMKWqLiQdt16P"
 
-    fun initManager(mContext: Context) {
+    // 接口
+    private lateinit var mOnAsrResultListener: OnAsrResultListener
+
+    fun initManager(mContext: Context, mOnAsrResultListener: OnAsrResultListener) {
+        this.mOnAsrResultListener = mOnAsrResultListener
+
         VoiceTTS.initTTS(mContext)
         VoiceWakeUp.initWakeUp(mContext, this)
+        VoiceAsr.initAsr(mContext, this)
     }
 
     // 播放text
@@ -85,11 +95,62 @@ object VoiceManager : EventListener {
         VoiceWakeUp.stopWakeUp()
     }
 
-    override fun onEvent(name: String?, params: String?, byte: ByteArray?, p3: Int, p4: Int) {
-        Log.d(TAG, String.format("event: name=%s, params=%s", name, params))
-        name?.let {
-            when (it) {
-                SpeechConstant.CALLBACK_EVENT_WAKEUP_SUCCESS -> ttsStart("我在")
+    //开始识别
+    fun startAsr() {
+        VoiceAsr.startAsr()
+    }
+
+    //停止识别
+    fun stopAsr() {
+        VoiceAsr.stopAsr()
+    }
+
+    //取消识别
+    fun cancelAsr() {
+        VoiceAsr.cancelAsr()
+    }
+
+    //销毁
+    fun releaseAsr() {
+        VoiceAsr.releaseAsr(this)
+    }
+
+    override fun onEvent(
+        name: String?,
+        params: String?,
+        byte: ByteArray?,
+        offset: Int,
+        length: Int
+    ) {
+//        Log.d(TAG, String.format("event: name=%s, params=%s", name, params))
+        when (name) {
+//            SpeechConstant.CALLBACK_EVENT_WAKEUP_READY -> Log.i(TAG, "唤醒准备就绪")
+//            SpeechConstant.CALLBACK_EVENT_ASR_BEGIN -> Log.i(TAG, "开始说话")
+//            SpeechConstant.CALLBACK_EVENT_ASR_END -> Log.i(TAG, "结束说话")
+            SpeechConstant.CALLBACK_EVENT_WAKEUP_READY -> mOnAsrResultListener.wakeUpReady()
+            SpeechConstant.CALLBACK_EVENT_ASR_BEGIN -> mOnAsrResultListener.asrStartSpeak()
+            SpeechConstant.CALLBACK_EVENT_ASR_END -> mOnAsrResultListener.asrStopSpeak()
+
+        }
+
+        if (params == null) {
+            return
+        }
+
+        val allJson = JSONObject(params) // params转换为json 获取识别语音信息
+        Log.i("Test", "allJson$name$allJson")
+        when (name) {
+            SpeechConstant.CALLBACK_EVENT_WAKEUP_SUCCESS -> mOnAsrResultListener.wakeUpSuccess(
+                allJson
+            )
+            SpeechConstant.CALLBACK_EVENT_WAKEUP_ERROR -> mOnAsrResultListener.voiceError("唤醒失败")
+            SpeechConstant.CALLBACK_EVENT_ASR_FINISH -> mOnAsrResultListener.asrResult(allJson)
+            SpeechConstant.CALLBACK_EVENT_ASR_PARTIAL -> {
+                mOnAsrResultListener.updateUserText(allJson.optString("best_result")) // 获取最终文本
+                byte?.let {
+                    val nlu = JSONObject(String(byte, offset, length))
+                    mOnAsrResultListener.nluResult(nlu)
+                }
             }
         }
     }

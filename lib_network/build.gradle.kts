@@ -1,6 +1,8 @@
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+//    id("org.jetbrains.kotlin.android")
+    kotlin("android")
+    kotlin("android.extensions")
 }
 
 android {
@@ -30,4 +32,7 @@ android {
 
 dependencies {
     api(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+
+    api(DependenciesConfig.RETROFIT)
+    api(DependenciesConfig.RETROFIT_GSON)
 }

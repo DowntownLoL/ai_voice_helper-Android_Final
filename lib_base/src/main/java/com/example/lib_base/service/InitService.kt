@@ -9,9 +9,12 @@ import android.app.IntentService
 import android.content.Intent
 import com.example.lib_base.helper.ARouterHelper
 import com.example.lib_base.helper.NotificationHelper
+import com.example.lib_base.helper.SoundPoolHelper
+import com.example.lib_base.helper.`fun`.AppHelper
 import com.example.lib_base.utils.L
 import com.example.lib_base.utils.SpUtils
 import com.example.lib_voice.manager.VoiceManager
+import com.example.lib_voice.words.WordsTools
 
 class InitService:IntentService(InitService::class.simpleName){
 
@@ -24,6 +27,9 @@ class InitService:IntentService(InitService::class.simpleName){
         L.i("初始化")
 
         SpUtils.initUtils(this)
+        WordsTools.initTools(this)
+        SoundPoolHelper.init(this)
+        AppHelper.initHelper(this)
     }
 
     override fun onDestroy() {

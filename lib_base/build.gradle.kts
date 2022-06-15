@@ -58,6 +58,12 @@ dependencies {
     api(DependenciesConfig.RECYCLERVIEW)
     // AndPermissions
     api(DependenciesConfig.AND_PERMISSIONS)
+    // ViewPager
+    api(DependenciesConfig.VIEWPAGER)
+    // Google Material
+    api(DependenciesConfig.MATERIAL)
+    // Lottie
+    api(DependenciesConfig.LOTTIE)
 
     api(project(":lib_voice"))
     api(project(":lib_network"))

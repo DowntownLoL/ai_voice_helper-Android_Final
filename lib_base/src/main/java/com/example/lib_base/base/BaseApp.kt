@@ -7,6 +7,7 @@ package com.example.lib_base.base
 
 import android.app.Application
 import android.content.Intent
+import android.os.Build
 import com.example.lib_base.helper.ARouterHelper
 import com.example.lib_base.helper.NotificationHelper
 import com.example.lib_base.service.InitService
@@ -19,7 +20,6 @@ open class BaseApp: Application() {
 
         ARouterHelper.initHelper(this)
         NotificationHelper.initHelp(this)
-        VoiceManager.initManager(this)
         startService(Intent(this, InitService::class.java))
     }
 }

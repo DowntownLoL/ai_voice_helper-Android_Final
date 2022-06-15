@@ -35,8 +35,7 @@ object VoiceWakeUp {
         wp = EventManagerFactory.create(mContext, "wp")
         wp.registerListener(listener)
 
-//        startWakeUp()
-
+        startWakeUp()
     }
 
     // 启动唤醒

@@ -33,13 +33,24 @@ object DependenciesConfig {
     // RecycleView
     const val RECYCLERVIEW = "androidx.recyclerview:recyclerview:1.2.1"
 
-    //Permissions
+    // Permissions
     const val AND_PERMISSIONS = "com.yanzhenjie:permission:2.0.3"
+
+    // Retrofit
+    const val RETROFIT = "com.squareup.retrofit2:retrofit:2.8.1"
+    const val RETROFIT_GSON = "com.squareup.retrofit2:converter-gson:2.8.1"
+
+    // ViewPager
+    const val VIEWPAGER = "com.zhy:magic-viewpager:1.0.1"
+    const val MATERIAL = "com.google.android.material:material:1.0.0"
+
+    // Lottie动画
+    const val LOTTIE = "com.airbnb.android:lottie:3.4.0"
 }
 
 object ModuleConfig {
     // 八个Module是否为App？
-    var isApp = false
+    var isApp = true
 
     const val MODULE_APP_MANAGER = "com.example.module_app_manager"
     const val MODULE_CONSTELLATION = "com.example.module_constellation"
