@@ -3,5 +3,6 @@
     package="com.example.module_weather">
     <application>
         <activity android:name=".WeatherActivity"/>
+        <activity android:name=".ui.CitySelectActivity"/>
     </application>
 </manifest>

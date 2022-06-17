@@ -11,6 +11,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.Handler
 import android.os.IBinder
+import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -21,10 +22,19 @@ import com.example.aivoicehelper.R
 import com.example.aivoicehelper.adapter.ChatListAdapter
 import com.example.aivoicehelper.data.ChatList
 import com.example.aivoicehelper.entity.AppConstants
+import com.example.lib_base.helper.ARouterHelper
 import com.example.lib_base.helper.NotificationHelper
 import com.example.lib_base.helper.SoundPoolHelper
 import com.example.lib_base.helper.WindowHelper
+import com.example.lib_base.helper.`fun`.AppHelper
+import com.example.lib_base.helper.`fun`.CommonSettingHelper
+import com.example.lib_base.helper.`fun`.ConsTellHelper
+import com.example.lib_base.helper.`fun`.ContactHelper
 import com.example.lib_base.utils.L
+import com.example.lib_network.HttpManager
+import com.example.lib_network.bean.JokeOneData
+import com.example.lib_network.bean.RobotData
+import com.example.lib_network.bean.WeatherData
 import com.example.lib_voice.engine.VoiceEngineAnalyze
 import com.example.lib_voice.impl.OnAsrResultListener
 import com.example.lib_voice.impl.OnNluResultListener
@@ -32,6 +42,9 @@ import com.example.lib_voice.manager.VoiceManager
 import com.example.lib_voice.tts.VoiceTTS
 import com.example.lib_voice.words.WordsTools
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class VoiceService : Service(), OnNluResultListener {
 
@@ -71,7 +84,8 @@ class VoiceService : Service(), OnNluResultListener {
         WindowHelper.initHelper(this)
         mFullWindowView = WindowHelper.getView(R.layout.layout_window_item)
         mChatListView = mFullWindowView.findViewById(R.id.mChatListView) // 聊天框
-        mLottieView = mFullWindowView.findViewById<LottieAnimationView>(R.id.mLottieView) // 唤醒浮动圆球动画
+        mLottieView =
+            mFullWindowView.findViewById<LottieAnimationView>(R.id.mLottieView) // 唤醒浮动圆球动画
         tvVoiceTips = mFullWindowView.findViewById<TextView>(R.id.tvVoiceTips) // 提示音
         mChatListView.layoutManager = LinearLayoutManager(this)
         mChatAdapter = ChatListAdapter(mList)
@@ -81,7 +95,7 @@ class VoiceService : Service(), OnNluResultListener {
 
             override fun wakeUpReady() {
                 L.i("唤醒准备就绪")
-                VoiceManager.ttsStart("唤醒引擎准备就绪")
+                addAiText("唤醒引擎准备就绪")
             }
 
             override fun asrStartSpeak() {
@@ -135,13 +149,11 @@ class VoiceService : Service(), OnNluResultListener {
         SoundPoolHelper.play(R.raw.record_start)
         // 应答
         val wakeupText = WordsTools.wakeupWords()
-        addAiText(wakeupText)
-        VoiceManager.ttsStart(wakeupText,
-            object : VoiceTTS.OnTTSResultListener {
-                override fun ttsEnd() {
-                    VoiceManager.startAsr()
-                }
-            })
+        addAiText(wakeupText, object : VoiceTTS.OnTTSResultListener {
+            override fun ttsEnd() {
+                VoiceManager.startAsr() // 开始识别
+            }
+        })
     }
 
     //显示窗口
@@ -161,9 +173,221 @@ class VoiceService : Service(), OnNluResultListener {
         }, 2 * 1000)
     }
 
-    // 查询天气
-    override fun queryWeather() {
+    // 打开App
+    override fun openApp(appName: String) {
+        if (!TextUtils.isEmpty(appName)) {
+            L.i("Open App $appName")
+            val isOpen = AppHelper.launcherApp(appName) // 判断能否打开
+            if (isOpen) {
+//                addAiText(getString(R.string.text_voice_app_open, appName))
+                addAiText("正在为你打开$appName")
+            } else {
+//                addAiText(getString(R.string.text_voice_app_not_open, appName))
+                addAiText("很抱歉，无法打开$appName")
+            }
+        }
+        hideWindow()
+    }
 
+    // 卸载App
+    override fun uninstallApp(appName: String) {
+        if (!TextUtils.isEmpty(appName)) {
+            L.i("unInstall App $appName")
+            val isUninstall = AppHelper.unInstallApp(appName)
+            if (isUninstall) {
+                addAiText("正在为你卸载$appName")
+            } else {
+                addAiText("很抱歉，无法卸载$appName")
+            }
+        }
+        hideWindow()
+    }
+
+    // 其他App
+    override fun otherApp(appName: String) {
+        // 全部跳转应用市场
+        if (!TextUtils.isEmpty(appName)) {
+            val isIntent = AppHelper.launcherAppStore(appName)
+            if (isIntent) {
+                addAiText("正在为你打开$appName")
+            } else {
+                addAiText(WordsTools.noAnswerWords())
+            }
+        }
+    }
+
+    override fun back() {
+        addAiText("正在为您执行返回操作")
+        CommonSettingHelper.back()
+        hideWindow()
+    }
+
+    override fun home() {
+        addAiText("正在返回主页")
+        CommonSettingHelper.home()
+        hideWindow()
+    }
+
+    override fun setVolumeUp() {
+        addAiText("正在增加音量")
+        CommonSettingHelper.setVolumeUp()
+        hideWindow()
+    }
+
+    override fun setVolumeDown() {
+        addAiText("正在减小音量")
+        CommonSettingHelper.setVolumeDown()
+        hideWindow()
+    }
+
+    // 星座时间
+    override fun conTellTime(name: String) {
+        L.i("conTellTime:$name")
+        val text = ConsTellHelper.getConsTellTime(name)
+        addAiText(text, object : VoiceTTS.OnTTSResultListener {
+            override fun ttsEnd() {
+                hideWindow()
+            }
+        })
+    }
+
+    // 星座详情
+    override fun conTellInfo(name: String) {
+        L.i("conTellInfo:$name")
+        addAiText(
+//            getString(R.string.text_voice_query_con_tell_info, name),
+            "正在为你查询${name}的详情",
+            object : VoiceTTS.OnTTSResultListener {
+                override fun ttsEnd() {
+                    hideWindow()
+                }
+            })
+        ARouterHelper.startActivity(ARouterHelper.PATH_CONSTELLATION, "name", name) // 跳转至星座页面
+    }
+
+    // 拨打联系人
+    override fun callPhoneForName(name: String) {
+        val list = ContactHelper.mContactList.filter { it.phoneName == name }
+        if (list.isNotEmpty()) {
+//            addAiText(
+//                getString(R.string.text_voice_call, name),
+//                object : VoiceTTS.OnTTSResultListener {
+//                    override fun ttsEnd() {
+//                        ContactHelper.callPhone(list[0].phoneNumber)
+//                    }
+//                })
+            addAiText("正在为您呼叫$name", object :VoiceTTS.OnTTSResultListener{ // 保证Ai说完话后才调用呼叫
+                override fun ttsEnd() {
+                    ContactHelper.callPhone(list[0].phoneNumber)
+                }
+            })
+        } else {
+//            addAiText(getString(R.string.text_voice_no_friend))
+            addAiText("通讯录中没有找到$name")
+        }
+        hideWindow()
+    }
+
+    // 拨打号码
+    override fun callPhoneForNumber(phone: String) {
+//        addAiText(getString(R.string.text_voice_call), object : VoiceTTS.OnTTSResultListener {
+//            override fun ttsEnd() {
+//                ContactHelper.callPhone(phone)
+//            }
+//        })
+        addAiText("正在为你拨打$phone", object : VoiceTTS.OnTTSResultListener {
+            override fun ttsEnd() {
+                ContactHelper.callPhone(phone)
+            }
+        })
+        hideWindow()
+    }
+
+    // 播放笑话
+    override fun playJoke() {
+        HttpManager.queryJoke(object : Callback<JokeOneData> {
+            override fun onFailure(call: Call<JokeOneData>, t: Throwable) {
+                L.i("onFailure:$t")
+                jokeError()
+            }
+
+            override fun onResponse(call: Call<JokeOneData>, response: Response<JokeOneData>) {
+                L.i("Joke onResponse")
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        if (it.error_code == 0) {
+                            // 根据Result随机抽取一段笑话进行播放
+                            val index = WordsTools.randomInt(it.result.size)
+                            L.i("index:$index")
+                            if (index < it.result.size) {
+                                val data = it.result[index]
+                                addAiText(data.content, object : VoiceTTS.OnTTSResultListener {
+                                    override fun ttsEnd() {
+                                        hideWindow()
+                                    }
+                                })
+                            }
+                        } else {
+                            jokeError()
+                        }
+                    }
+                } else {
+                    jokeError()
+                }
+            }
+        })
+    }
+
+    // 笑话列表
+    override fun jokeList() {
+//        addAiText(getString(R.string.text_voice_query_joke))
+        addAiText("正在为您搜索笑话")
+        ARouterHelper.startActivity(ARouterHelper.PATH_JOKE)
+        hideWindow()
+    }
+
+    // 机器人
+    override fun aiRobot(text: String) {
+        //请求机器人回答
+        HttpManager.aiRobotChat(text, object : Callback<RobotData> {
+
+            override fun onFailure(call: Call<RobotData>, t: Throwable) {
+                addAiText(WordsTools.noAnswerWords()) // 听不懂
+                hideWindow()
+            }
+
+            override fun onResponse(
+                call: Call<RobotData>,
+                response: Response<RobotData>
+            ) {
+                L.i("机器人结果:" + response.body().toString())
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        if (it.intent.code == 10004) {
+                            // 回答
+                            if (it.results.isEmpty()) {
+                                addAiText(WordsTools.noAnswerWords())
+                                hideWindow()
+                            } else {
+                                L.i(it.results[0].values.text)
+                                addAiText(it.results[0].values.text)
+                                hideWindow()
+                            }
+                        } else {
+                            addAiText(WordsTools.noAnswerWords())
+                            hideWindow()
+                        }
+                    }
+                }
+            }
+
+        })
+    }
+
+    // 无法应答
+    override fun nluError() {
+        addAiText(WordsTools.noAnswerWords())
+        hideWindow()
     }
 
     // 添加我的文本
@@ -178,7 +402,14 @@ class VoiceService : Service(), OnNluResultListener {
         val bean = ChatList(AppConstants.TYPE_AI_TEXT)
         bean.text = text
         baseAddItem(bean)
-//        VoiceManager.ttsStart(text)
+        VoiceManager.ttsStart(text)
+    }
+
+    private fun addAiText(text: String, mOnTTSResultListener: VoiceTTS.OnTTSResultListener) {
+        val bean = ChatList(AppConstants.TYPE_AI_TEXT)
+        bean.text = text
+        baseAddItem(bean)
+        VoiceManager.ttsStart(text, mOnTTSResultListener)
     }
 
     // 添加基类
@@ -190,5 +421,71 @@ class VoiceService : Service(), OnNluResultListener {
     // 更新提示语
     private fun updateTips(text: String) {
         tvVoiceTips.text = text
+    }
+
+    // 笑话Error
+    private fun jokeError() {
+        hideWindow()
+//        addAiText(getString(R.string.text_voice_query_joke_error))
+        addAiText("很抱歉，没有搜索到笑话")
+    }
+
+    // 查询天气
+    override fun queryWeather(city: String) {
+        HttpManager.run {
+            queryWeather(city, object : Callback<WeatherData> {
+                override fun onFailure(call: Call<WeatherData>, t: Throwable) {
+//                    addAiText(getString(R.string.text_voice_query_weather_error, city))
+                    addAiText("无法为您查询${city}的天气")
+                    hideWindow()
+                }
+
+                override fun onResponse(call: Call<WeatherData>, response: Response<WeatherData>) {
+                    if (response.isSuccessful) {
+                        response.body()?.let {
+                            it.result.realtime.apply {
+                                //在UI上显示
+                                addWeather(
+                                    city,
+                                    wid,
+                                    info,
+                                    temperature,
+                                    object : VoiceTTS.OnTTSResultListener {
+                                        override fun ttsEnd() {
+                                            hideWindow()
+                                        }
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    //天气详情
+    override fun queryWeatherInfo(city: String) {
+//        addAiText(getString(R.string.text_voice_query_weather, city))
+        addAiText("正在为您查询${city}的天气")
+        ARouterHelper.startActivity(ARouterHelper.PATH_WEATHER, "city", city)
+        hideWindow()
+    }
+
+    /**
+     * 添加天气
+     */
+    private fun addWeather(
+        city: String, wid: String, info: String,
+        temperature: String, mOnTTSResultListener: VoiceTTS.OnTTSResultListener
+    ) {
+        val bean = ChatList(AppConstants.TYPE_AI_WEATHER)
+        bean.city = city
+        bean.wid = wid
+        bean.info = info
+        bean.temperature = "$temperature°"
+        baseAddItem(bean)
+        val text = city + "今天天气" + info + temperature + "°"
+        VoiceManager.ttsStart(text, mOnTTSResultListener)
     }
 }

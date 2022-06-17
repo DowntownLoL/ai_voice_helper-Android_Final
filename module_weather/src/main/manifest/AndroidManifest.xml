@@ -4,6 +4,7 @@
     package="com.example.module_weather">
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:name="com.example.lib_base.base.BaseApp"
         android:icon="@mipmap/ic_launcher"

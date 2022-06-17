@@ -76,7 +76,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     }
 
-    // 检查多个权限
+    // 检查单个权限
     protected fun checkPermission(permission: String): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //            permission.forEach {
@@ -85,6 +85,18 @@ abstract class BaseActivity : AppCompatActivity() {
 //                }
 //            }
             return checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
+        }
+        return true
+    }
+
+    // 检查多个权限
+    protected fun checkPermission(permission: Array<String>): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            permission.forEach {
+                if (checkSelfPermission(it) == PackageManager.PERMISSION_DENIED) { // 当前权限不同意
+                    return false
+                }
+            }
         }
         return true
     }

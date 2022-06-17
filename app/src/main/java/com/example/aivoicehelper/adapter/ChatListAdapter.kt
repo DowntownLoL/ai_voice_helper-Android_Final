@@ -9,6 +9,8 @@ import com.example.aivoicehelper.data.ChatList
 import com.example.aivoicehelper.entity.AppConstants
 import com.example.lib_base.base.adapter.CommonAdapter
 import com.example.lib_base.base.adapter.CommonViewHolder
+import com.example.module_weather.tools.WeatherIconTools
+
 
 class ChatListAdapter(
     mList: List<ChatList>,
@@ -24,10 +26,10 @@ class ChatListAdapter(
             AppConstants.TYPE_MINE_TEXT -> viewHolder.setText(R.id.tv_mine_text,model.text)
             AppConstants.TYPE_AI_TEXT -> viewHolder.setText(R.id.tv_ai_text, model.text)
             AppConstants.TYPE_AI_WEATHER -> {
-//                viewHolder.setText(R.id.tv_city, model.city)
-//                viewHolder.setText(R.id.tv_info, model.info)
-//                viewHolder.setText(R.id.tv_temperature, model.temperature)
-//                viewHolder.setImageResource(R.id.iv_icon, WeatherIconTools.getIcon(model.wid))
+                viewHolder.setText(R.id.tv_city, model.city)
+                viewHolder.setText(R.id.tv_info, model.info)
+                viewHolder.setText(R.id.tv_temperature, model.temperature)
+                viewHolder.setImageResource(R.id.iv_icon, WeatherIconTools.getIcon(model.wid))
             }
         }
     }

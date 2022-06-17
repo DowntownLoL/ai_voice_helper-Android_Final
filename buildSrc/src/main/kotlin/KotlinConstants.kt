@@ -46,11 +46,19 @@ object DependenciesConfig {
 
     // Lottie动画
     const val LOTTIE = "com.airbnb.android:lottie:3.4.0"
+
+    // 刷新
+    const val REFRESH_KERNEL = "com.scwang.smart:refresh-layout-kernel:2.0.1"
+    const val REFRESH_HEADER = "com.scwang.smart:refresh-header-classics:2.0.1"
+    const val REFRESH_FOOT = "com.scwang.smart:refresh-footer-classics:2.0.1"
+
+    // 图表
+    const val CHART = "com.github.PhilJay:MPAndroidChart:v3.1.0"
 }
 
 object ModuleConfig {
     // 八个Module是否为App？
-    var isApp = true
+    var isApp = false
 
     const val MODULE_APP_MANAGER = "com.example.module_app_manager"
     const val MODULE_CONSTELLATION = "com.example.module_constellation"

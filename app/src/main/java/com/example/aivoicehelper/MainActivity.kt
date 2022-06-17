@@ -13,11 +13,19 @@ import com.example.lib_base.base.BaseActivity
 import com.example.lib_base.base.adapter.BasePagerAdapter
 import com.example.lib_base.helper.ARouterHelper
 import com.example.lib_base.helper.`fun`.AppHelper
+import com.example.lib_base.helper.`fun`.ContactHelper
 import com.yanzhenjie.permission.Action
 import com.zhy.magicviewpager.transformer.ScaleInTransformer
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
+
+    // 申请的权限
+    val permission = arrayOf(
+        Manifest.permission.RECORD_AUDIO,
+        Manifest.permission.CALL_PHONE,
+        Manifest.permission.READ_CONTACTS
+    )
 
     private val mList = ArrayList<MainListData>()
     private val mListView = ArrayList<View>()
@@ -36,15 +44,14 @@ class MainActivity : BaseActivity() {
 
     override fun initView() {
 
-        if (checkPermission(Manifest.permission.RECORD_AUDIO)) {  // 有录音权限
+        if (checkPermission(permission)) {  // 有录音权限
             linkService() // 启动服务
         } else {
-            requestPermission(arrayOf(Manifest.permission.RECORD_AUDIO),
-                Action<List<String>> { linkService() })// 申请权限
+            requestPermission(permission, Action<List<String>> { linkService() })// 申请权限
         }
 
         // 窗口权限
-        if(!checkWindowPermission()){
+        if (!checkWindowPermission()) {
             requestWindowPermission(packageName)
         }
 
@@ -108,6 +115,10 @@ class MainActivity : BaseActivity() {
 
     // 连接服务
     private fun linkService() {
+
+        // 读取通讯录
+        ContactHelper.initHelper(this)
+
         startService(Intent(this, VoiceService::class.java))
     }
 

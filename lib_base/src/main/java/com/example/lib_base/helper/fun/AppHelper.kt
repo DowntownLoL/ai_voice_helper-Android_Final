@@ -28,7 +28,7 @@ object AppHelper {
     private val mAllAppList = ArrayList<AppData>()
 
     //所有商店包名
-//    private lateinit var mAllMarkArray: Array<String>
+    private lateinit var mAllMarkArray: Array<String>
 
     // 分页View
     val mAllViewList = ArrayList<View>()
@@ -63,8 +63,8 @@ object AppHelper {
 
         initPageView()
 
-        //加载商店包名
-//        mAllMarkArray = mContext.resources.getStringArray(R.array.AppMarketArray)
+        // 加载商店包名
+        mAllMarkArray = mContext.resources.getStringArray(R.array.AppMarketArray)
     }
 
     // 初始化PageView(获取手机中所有的应用)
@@ -139,23 +139,23 @@ object AppHelper {
         return false
     }
 
-    //跳转应用市场
-//    fun launcherAppStore(appName: String): Boolean {
-//        mAllAppList.forEach {
-//            //如果你包含，说明你安装了应用商店
-//            if (mAllMarkArray.contains(it.packName)) {
-//                if (mAllAppList.size > 0) {
-//                    mAllAppList.forEach { data ->
-//                        if (data.appName == appName) {
-//                            intentAppStore(data.packName, it.packName)
-//                            return true
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        return false
-//    }
+    // 跳转应用市场
+    fun launcherAppStore(appName: String): Boolean {
+        mAllAppList.forEach {
+            // 如果包含，说明你安装了对应的应用商店
+            if (mAllMarkArray.contains(it.packName)) {
+                if (mAllAppList.size > 0) {
+                    mAllAppList.forEach { data ->
+                        if (data.appName == appName) {
+                            intentAppStore(data.packName, it.packName)
+                            return true
+                        }
+                    }
+                }
+            }
+        }
+        return false
+    }
 
     // 启动App
     private fun intentApp(packageName: String) {
@@ -171,7 +171,7 @@ object AppHelper {
         val uri = Uri.parse("package:$packageName")
         val intent = Intent(Intent.ACTION_DELETE)
         intent.data = uri
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK // 设置flag以执行卸载
         mContext.startActivity(intent)
     }
 

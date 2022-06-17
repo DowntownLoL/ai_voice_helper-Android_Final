@@ -23,6 +23,9 @@ object NotificationHelper {
     private const val CHANNER_ID = "ai_voice_service"
     private const val CHANNER_NAME = "语音服务"
 
+    private const val CHANNEL_INIT_ID = "ai_init_service"
+    private const val CHANNEL_INIT_NAME = "初始化服务"
+
     fun initHelp(mContext: Context) {
         this.mContext = mContext
         nm = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

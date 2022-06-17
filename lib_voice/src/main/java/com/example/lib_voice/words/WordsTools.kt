@@ -56,7 +56,7 @@ object WordsTools {
     }
 
     /**
-     * 对给定的整数进行随机值
+     * 对给定的整数范围内随机取值
      */
     fun randomInt(maxSize: Int): Int {
         return Random.nextInt(maxSize)

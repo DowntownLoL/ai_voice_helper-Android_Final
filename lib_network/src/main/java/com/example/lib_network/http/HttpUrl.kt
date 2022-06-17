@@ -1,5 +1,7 @@
 /**
  * @author: Zhang
+ * @description: 聚合数据等api
+ * @link: https://www.juhe.cn/apiservice?
  */
 package com.example.lib_network.http
 
@@ -10,7 +12,7 @@ object HttpUrl {
     //天气查询
     const val WEATHER_ACTION = "simpleWeather/query"
 
-    //天气
+    //笑话
     const val JOKE_BASE_URL = "http://v.juhe.cn/"
 
     //随机笑话

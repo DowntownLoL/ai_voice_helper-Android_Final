@@ -64,6 +64,12 @@ dependencies {
     api(DependenciesConfig.MATERIAL)
     // Lottie
     api(DependenciesConfig.LOTTIE)
+    // 刷新
+    api(DependenciesConfig.REFRESH_KERNEL)
+    api(DependenciesConfig.REFRESH_HEADER)
+    api(DependenciesConfig.REFRESH_FOOT)
+    // MpAndroidChart
+    api(DependenciesConfig.CHART)
 
     api(project(":lib_voice"))
     api(project(":lib_network"))
