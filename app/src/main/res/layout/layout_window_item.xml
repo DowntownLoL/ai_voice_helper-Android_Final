@@ -47,12 +47,12 @@
 
     </LinearLayout>
 
-<!--    <ImageView-->
-<!--        android:id="@+id/ivCloseWindow"-->
-<!--        android:layout_width="28dp"-->
-<!--        android:layout_height="28dp"-->
-<!--        android:layout_alignParentEnd="true"-->
-<!--        android:layout_margin="20dp"-->
-<!--        android:src="@drawable/img_close" />-->
+    <ImageView
+        android:id="@+id/ivCloseWindow"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="20dp"
+        android:src="@drawable/img_close" />
 
 </RelativeLayout>

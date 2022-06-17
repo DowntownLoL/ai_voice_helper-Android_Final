@@ -53,6 +53,7 @@ class VoiceService : Service(), OnNluResultListener {
     private lateinit var mFullWindowView: View
     private lateinit var mChatListView: RecyclerView
     private lateinit var mLottieView: LottieAnimationView
+    private lateinit var ivCloseWindow: ImageView
     private lateinit var tvVoiceTips: TextView
 
     private val mList = ArrayList<ChatList>()
@@ -84,12 +85,16 @@ class VoiceService : Service(), OnNluResultListener {
         WindowHelper.initHelper(this)
         mFullWindowView = WindowHelper.getView(R.layout.layout_window_item)
         mChatListView = mFullWindowView.findViewById(R.id.mChatListView) // 聊天框
-        mLottieView =
-            mFullWindowView.findViewById<LottieAnimationView>(R.id.mLottieView) // 唤醒浮动圆球动画
+        mLottieView = mFullWindowView.findViewById<LottieAnimationView>(R.id.mLottieView) // 唤醒浮动圆球动画
         tvVoiceTips = mFullWindowView.findViewById<TextView>(R.id.tvVoiceTips) // 提示音
+        ivCloseWindow = mFullWindowView.findViewById<ImageView>(R.id.ivCloseWindow)
         mChatListView.layoutManager = LinearLayoutManager(this)
         mChatAdapter = ChatListAdapter(mList)
         mChatListView.adapter = mChatAdapter
+
+        ivCloseWindow.setOnClickListener {
+            hideTouchWindow()
+        }
 
         VoiceManager.initManager(this, object : OnAsrResultListener {
 
@@ -104,7 +109,7 @@ class VoiceService : Service(), OnNluResultListener {
 
             override fun asrStopSpeak() {
                 L.i("结束说话")
-                hideWindow()
+//                hideWindow()
             }
 
             override fun wakeUpSuccess(result: JSONObject) { // result: 唤醒成功：{"errorDesc":"wakup success","errorCode":0,"word":"小度小度"}
@@ -132,7 +137,7 @@ class VoiceService : Service(), OnNluResultListener {
                 L.i("====================NLU=========================")
                 L.i("nlu: $nlu")
                 addMineText(nlu.optString("raw_text")) // 使用户的话实时展示在窗口中
-                addAiText(nlu.toString())
+//                addAiText(nlu.toString())
                 VoiceEngineAnalyze.analyzeNlu(nlu, this@VoiceService)
             }
 
@@ -156,14 +161,14 @@ class VoiceService : Service(), OnNluResultListener {
         })
     }
 
-    //显示窗口
+    // 显示窗口
     private fun showWindow() {
         L.i("======显示窗口======")
         mLottieView.playAnimation() // LottieView启动动画
         WindowHelper.show(mFullWindowView)
     }
 
-    //隐藏窗口
+    // 隐藏窗口
     private fun hideWindow() {
         L.i("======隐藏窗口======")
         mHandler.postDelayed({
@@ -171,6 +176,15 @@ class VoiceService : Service(), OnNluResultListener {
             mLottieView.pauseAnimation() // LottieView暂停动画
 //            SoundPoolHelper.play(R.raw.record_over)
         }, 2 * 1000)
+    }
+
+    // 直接隐藏窗口
+    private fun hideTouchWindow() {
+        L.i("======隐藏窗口======")
+        WindowHelper.hide(mFullWindowView)
+        mLottieView.pauseAnimation()
+        SoundPoolHelper.play(R.raw.record_over)
+        VoiceManager.stopAsr()
     }
 
     // 打开App
@@ -488,4 +502,5 @@ class VoiceService : Service(), OnNluResultListener {
         val text = city + "今天天气" + info + temperature + "°"
         VoiceManager.ttsStart(text, mOnTTSResultListener)
     }
+
 }
