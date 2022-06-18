@@ -5,7 +5,6 @@
 package com.example.module_app_manager
 
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.view.View
@@ -44,17 +43,12 @@ class AppManagerActivity : BaseActivity() {
         return true
     }
 
-//    override fun initView() {
-//        mViewPager.offscreenPageLimit = AppHelper.getPageSize() // 页面数
-//        mViewPager.adapter = BasePagerAdapter(AppHelper.mAllViewList)
-//    }
-
     override fun initView() {
 
         // 显示加载
         ll_loading.visibility = View.VISIBLE
 
-        //说明初始化AppView成功
+        // 说明初始化AppView成功
         waitAppHandler()
     }
 

@@ -1,5 +1,6 @@
 /**
- *  @description: 语音引擎分析
+ * @author: Zhang
+ * @description: 语音引擎分析
  */
 package com.example.lib_voice.engine
 
@@ -26,7 +27,7 @@ object VoiceEngineAnalyze {
         val nluResultLength = results.length()
         when {
             // 百度ai识别失败 调用图灵robot
-            nluResultLength <= 0 || rawText == "你好。" || rawText == "今天星期几？"-> mOnNluResultListener.aiRobot(rawText)
+            nluResultLength <= 0 || rawText == "你好。" || rawText == "今天星期几？" || rawText == "你今天开心吗？"-> mOnNluResultListener.aiRobot(rawText)
             // 单条命中
             results.length() >= 1 -> analyzeNluSingle(results[0] as JSONObject)
         }
@@ -185,7 +186,7 @@ object VoiceEngineAnalyze {
                             }
                         }
                     }
-                }
+                } // 搜索星座
                 NluWrods.NLU_WEATHER -> {
                     val userLoc = slots.optJSONArray("user_loc")
                     userLoc?.let { loc ->

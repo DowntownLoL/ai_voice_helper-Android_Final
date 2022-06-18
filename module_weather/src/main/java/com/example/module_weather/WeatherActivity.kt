@@ -35,10 +35,10 @@ import retrofit2.Response
 @Route(path = ARouterHelper.PATH_WEATHER)
 class WeatherActivity : BaseActivity() {
 
-    //当前城市
+    // 当前城市
     private var currentCity = "深圳"
 
-    //跳转
+    // 跳转
     private val codeSelect = 100
 
     override fun getLayoutId(): Int {
@@ -80,14 +80,13 @@ class WeatherActivity : BaseActivity() {
     }
 
     private fun loadWeather() {
-        //设置
+        // 设置
         supportActionBar?.title = currentCity
 
         HttpManager.run {
             queryWeather(currentCity, object : Callback<WeatherData> {
                 override fun onFailure(call: Call<WeatherData>, t: Throwable) {
                     L.i("onFailure:$t")
-//                    Toast.makeText(this@WeatherActivity, getString(R.string.text_load_fail), Toast.LENGTH_LONG).show()
                     Toast.makeText(this@WeatherActivity, "加载失败", Toast.LENGTH_LONG).show()
                 }
 
@@ -102,39 +101,39 @@ class WeatherActivity : BaseActivity() {
                             }
                             //填充数据
                             it.result.realtime.apply {
-                                //设置天气 阴
+                                // 设置天气 阴
                                 mInfo.text = info
-                                //设置图片
+                                // 设置图片
                                 mIvWid.setImageResource(WeatherIconTools.getIcon(wid))
-                                //设置温度
+                                // 设置温度
                                 mTemperature.text =
                                     String.format(
                                         "%s%s",
                                         temperature,
                                         getString(R.string.app_weather_t)
                                     )
-                                //设置湿度
+                                // 设置湿度
                                 mHumidity.text =
                                     String.format(
                                         "%s\t%s",
                                         getString(R.string.app_weather_humidity),
                                         humidity
                                     )
-                                //设置风向
+                                // 设置风向
                                 mDirect.text =
                                     String.format(
                                         "%s\t%s",
                                         getString(R.string.app_weather_direct),
                                         direct
                                     )
-                                //设置风力
+                                // 设置风力
                                 mPower.text =
                                     String.format(
                                         "%s\t%s",
                                         getString(R.string.app_weather_power),
                                         power
                                     )
-                                //设置空气质量
+                                // 设置空气质量
                                 mAqi.text = String.format(
                                     "%s\t%s",
                                     getString(R.string.app_weather_aqi),
@@ -143,7 +142,7 @@ class WeatherActivity : BaseActivity() {
                             }
 
                             val data = ArrayList<Entry>()
-                            //绘制图表
+                            // 绘制图表
                             it.result.future.forEachIndexed { index, future ->
                                 val temp = future.temperature.substring(0, 2)
                                 data.add(Entry((index + 1).toFloat(), temp.toFloat()))
@@ -162,23 +161,23 @@ class WeatherActivity : BaseActivity() {
 
         //=============================基本配置=============================
 
-        //后台绘制
+        // 后台绘制
         mLineChart.setDrawGridBackground(true)
-        //开启描述文本
+        // 开启描述文本
         mLineChart.description.isEnabled = true
         mLineChart.description.text = getString(R.string.text_ui_tips)
-        //触摸手势
+        // 触摸手势
         mLineChart.setTouchEnabled(true)
-        //支持缩放
+        // 支持缩放
         mLineChart.setScaleEnabled(true)
-        //拖拽
+        // 拖拽
         mLineChart.isDragEnabled = true
-        //扩展缩放
+        // 扩展缩放
         mLineChart.setPinchZoom(true)
 
         //=============================轴配置=============================
 
-        //平均线
+        // 平均线
         val xLimitLine = LimitLine(10f, "")
         xLimitLine.lineWidth = 4f
         xLimitLine.enableDashedLine(10f, 10f, 0f)
@@ -187,23 +186,23 @@ class WeatherActivity : BaseActivity() {
 
         val xAxis = mLineChart.xAxis
         xAxis.enableAxisLineDashedLine(10f, 10f, 0f)
-        //最大值
+        // 最大值
         xAxis.mAxisMaximum = 5f
-        //最小值
+        // 最小值
         xAxis.axisMinimum = 1f
 
         val axisLeft = mLineChart.axisLeft
         axisLeft.enableAxisLineDashedLine(10f, 10f, 0f)
-        //最大值
+        // 最大值
         axisLeft.mAxisMaximum = 40f
-        //最小值
+        // 最小值
         axisLeft.axisMinimum = 20f
 
-        //禁止右边的Y轴
+        // 禁止右边的Y轴
         mLineChart.axisRight.isEnabled = false
     }
 
-    //设置图标数据
+    // 设置图标数据
     private fun setLineChartData(values: java.util.ArrayList<Entry>) {
         if (mLineChart.data != null && mLineChart.data.dataSetCount > 0) {
             // 获取数据容器
@@ -238,11 +237,11 @@ class WeatherActivity : BaseActivity() {
 
         //=============================UI配置=============================
 
-        //X轴动画
+        // X轴动画
         mLineChart.animateX(2000)
-        //刷新
+        // 刷新
         mLineChart.invalidate()
-        //页眉
+        // 页眉
         val legend = mLineChart.legend
         legend.form = Legend.LegendForm.LINE
     }
@@ -255,7 +254,7 @@ class WeatherActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_setting) {
-            //跳转到城市选择中去
+            // 跳转到城市选择中去
             startCitySelectActivity()
         }
         return super.onOptionsItemSelected(item)

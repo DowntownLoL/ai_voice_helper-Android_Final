@@ -6,7 +6,6 @@
 package com.example.lib_base.event
 
 import org.greenrobot.eventbus.EventBus
-import java.util.*
 
 object EventManager {
 

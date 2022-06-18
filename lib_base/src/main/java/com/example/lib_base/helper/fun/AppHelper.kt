@@ -27,13 +27,13 @@ object AppHelper {
     // 所有应用
     private val mAllAppList = ArrayList<AppData>()
 
-    //所有商店包名
+    // 所有商店包名
     private lateinit var mAllMarkArray: Array<String>
 
     // 分页View
     val mAllViewList = ArrayList<View>()
 
-    //初始化
+    // 初始化
     fun initHelper(mContext: Context) {
         this.mContext = mContext
 
@@ -42,7 +42,7 @@ object AppHelper {
         loadAllApp()
     }
 
-    //加载所有的App
+    // 加载所有的App
     private fun loadAllApp() {
         val intent = Intent(Intent.ACTION_MAIN, null)
         intent.addCategory(Intent.CATEGORY_LAUNCHER)

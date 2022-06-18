@@ -21,9 +21,6 @@ class HttpInterceptor : Interceptor {
             Log.i(tag, request.url().toString())
         }
         Log.i(tag, "============RESPONSE============")
-//        response.body()?.let {
-//            Log.i(tag, it.string())
-//        }
 
         return response
     }

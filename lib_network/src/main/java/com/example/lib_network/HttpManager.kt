@@ -51,7 +51,7 @@ object HttpManager {
         apiWeather.getWeather(city, HttpKey.WEATHER_KEY).enqueue(callback)
     }
 
-    // 笑话对象
+    // 笑话对象 
     private val retrofitJoke by lazy {
         Retrofit.Builder()
             .client(getClient())

@@ -27,8 +27,6 @@ include(":module_app_manager")
 include(":module_constellation")
 include(":module_developer")
 include(":module_joke")
-include(":module_map")
-include(":module_setting")
 include(":module_voice_setting")
 include(":module_weather")
 rootProject.name = "AiVoiceHelper"

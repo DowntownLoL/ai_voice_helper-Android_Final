@@ -14,7 +14,7 @@ import org.json.JSONObject
 
 object VoiceAsr {
 
-    //识别对象
+    // s识别对象
     private lateinit var asr: EventManager
 
     private lateinit var asrJson: String

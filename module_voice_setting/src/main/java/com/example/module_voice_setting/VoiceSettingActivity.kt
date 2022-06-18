@@ -4,7 +4,6 @@
  */
 package com.example.module_voice_setting
 
-import android.os.Bundle
 import android.widget.SeekBar
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +13,6 @@ import com.example.lib_base.base.adapter.CommonAdapter
 import com.example.lib_base.base.adapter.CommonViewHolder
 import com.example.lib_base.helper.ARouterHelper
 import com.example.lib_voice.manager.VoiceManager
-import com.example.lib_voice.tts.VoiceTTS
 import kotlinx.android.synthetic.main.activity_voice_setting.*
 
 @Route(path = ARouterHelper.PATH_VOICE_SETTING)

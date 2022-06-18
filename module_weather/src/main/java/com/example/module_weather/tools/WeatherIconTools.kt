@@ -4,7 +4,7 @@ import com.example.module_weather.R
 
 object WeatherIconTools {
 
-    //天气天气状态获取图片
+    // 天气天气状态获取图片
     fun getIcon(wid: String): Int {
         when (wid) {
             "00" -> return R.drawable.img_00

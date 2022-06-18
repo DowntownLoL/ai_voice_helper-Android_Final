@@ -138,15 +138,4 @@
     <string name="app_date_month">本月</string>
     <string name="app_date_year">今年</string>
 
-<!--    &lt;!&ndash;天气&ndash;&gt;-->
-<!--    <string name="app_weather_t">°</string>-->
-<!--    <string name="app_weather_humidity">湿度</string>-->
-<!--    <string name="app_weather_direct">风向</string>-->
-<!--    <string name="app_weather_power">风力</string>-->
-<!--    <string name="app_weather_aqi">空气</string>-->
-<!--    <string name="app_weather_data_error">数据异常</string>-->
-<!--    <string name="app_weather_hot">热门</string>-->
-<!--    <string name="app_weather_city">市</string>-->
-<!--    <string name="app_weather_district">县</string>-->
-
 </resources>

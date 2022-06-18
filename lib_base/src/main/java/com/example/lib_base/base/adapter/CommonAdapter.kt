@@ -1,3 +1,7 @@
+/**
+ * @author: Zhang
+ * @description: 公用Adapter
+ */
 package com.example.lib_base.base.adapter
 
 import android.view.ViewGroup

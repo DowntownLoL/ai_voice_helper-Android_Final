@@ -32,7 +32,7 @@
         <entry key="module_voice_setting/src/main/res/layout/activity_voice_setting.xml" value="0.1" />
         <entry key="module_voice_setting/src/main/res/layout/tts_people_list.xml" value="0.2125" />
         <entry key="module_weather/src/main/res/drawable/parcel_button_bg.xml" value="0.1695" />
-        <entry key="module_weather/src/main/res/layout/activity_city_select.xml" value="0.19635416666666666" />
+        <entry key="module_weather/src/main/res/layout/activity_city_select.xml" value="0.27250620524088537" />
         <entry key="module_weather/src/main/res/layout/activity_weather.xml" value="0.1" />
         <entry key="module_weather/src/main/res/layout/layout_city_content.xml" value="0.1421875" />
         <entry key="module_weather/src/main/res/layout/layout_city_hot.xml" value="0.1421875" />

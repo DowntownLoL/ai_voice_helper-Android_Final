@@ -1,3 +1,7 @@
+/**
+ * @author: Zhang
+ * @description: MainActivity
+ */
 package com.example.aivoicehelper
 
 import android.Manifest
@@ -100,11 +104,8 @@ class MainActivity : BaseActivity() {
                     R.drawable.img_main_weather -> ARouterHelper.startActivity(ARouterHelper.PATH_WEATHER)
                     R.drawable.img_main_contell -> ARouterHelper.startActivity(ARouterHelper.PATH_CONSTELLATION)
                     R.drawable.img_main_joke_icon -> ARouterHelper.startActivity(ARouterHelper.PATH_JOKE)
-                    R.drawable.img_main_map_icon -> ARouterHelper.startActivity(ARouterHelper.PATH_MAP)
                     R.drawable.img_main_app_manager -> ARouterHelper.startActivity(ARouterHelper.PATH_APP_MANAGER)
                     R.drawable.img_main_voice_setting -> ARouterHelper.startActivity(ARouterHelper.PATH_VOICE_SETTING)
-                    R.drawable.img_main_system_setting -> ARouterHelper.startActivity(ARouterHelper.PATH_SETTING)
-                    R.drawable.img_main_developer -> ARouterHelper.startActivity(ARouterHelper.PATH_DEVELOPER)
                 }
             }
 

@@ -41,6 +41,7 @@ interface OnNluResultListener {
 
     // 播放笑话
     fun playJoke()
+    fun playJoke(text: String)
 
     // 笑话列表
     fun jokeList()

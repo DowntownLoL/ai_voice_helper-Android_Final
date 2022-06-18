@@ -84,10 +84,7 @@ dependencies {
     if(!ModuleConfig.isApp) {
         implementation(project(":module_app_manager"))
         implementation(project(":module_constellation"))
-        implementation(project(":module_developer"))
         implementation(project(":module_joke"))
-        implementation(project(":module_map"))
-        implementation(project(":module_setting"))
         implementation(project(":module_voice_setting"))
         implementation(project(":module_weather"))
     }

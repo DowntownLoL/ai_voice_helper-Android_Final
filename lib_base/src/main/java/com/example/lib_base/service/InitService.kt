@@ -24,7 +24,6 @@ class InitService:IntentService(InitService::class.simpleName){
 
     override fun onCreate() {
         super.onCreate()
-//        L.i("InitService启动")
     }
 
     override fun onHandleIntent(intent: Intent?) {

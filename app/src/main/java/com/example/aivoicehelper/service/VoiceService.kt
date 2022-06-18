@@ -85,7 +85,8 @@ class VoiceService : Service(), OnNluResultListener {
         WindowHelper.initHelper(this)
         mFullWindowView = WindowHelper.getView(R.layout.layout_window_item)
         mChatListView = mFullWindowView.findViewById(R.id.mChatListView) // 聊天框
-        mLottieView = mFullWindowView.findViewById<LottieAnimationView>(R.id.mLottieView) // 唤醒浮动圆球动画
+        mLottieView =
+            mFullWindowView.findViewById<LottieAnimationView>(R.id.mLottieView) // 唤醒浮动圆球动画
         tvVoiceTips = mFullWindowView.findViewById<TextView>(R.id.tvVoiceTips) // 提示音
         ivCloseWindow = mFullWindowView.findViewById<ImageView>(R.id.ivCloseWindow)
         mChatListView.layoutManager = LinearLayoutManager(this)
@@ -109,7 +110,6 @@ class VoiceService : Service(), OnNluResultListener {
 
             override fun asrStopSpeak() {
                 L.i("结束说话")
-//                hideWindow()
             }
 
             override fun wakeUpSuccess(result: JSONObject) { // result: 唤醒成功：{"errorDesc":"wakup success","errorCode":0,"word":"小度小度"}
@@ -137,7 +137,6 @@ class VoiceService : Service(), OnNluResultListener {
                 L.i("====================NLU=========================")
                 L.i("nlu: $nlu")
                 addMineText(nlu.optString("raw_text")) // 使用户的话实时展示在窗口中
-//                addAiText(nlu.toString())
                 VoiceEngineAnalyze.analyzeNlu(nlu, this@VoiceService)
             }
 
@@ -193,10 +192,8 @@ class VoiceService : Service(), OnNluResultListener {
             L.i("Open App $appName")
             val isOpen = AppHelper.launcherApp(appName) // 判断能否打开
             if (isOpen) {
-//                addAiText(getString(R.string.text_voice_app_open, appName))
                 addAiText("正在为你打开$appName")
             } else {
-//                addAiText(getString(R.string.text_voice_app_not_open, appName))
                 addAiText("很抱歉，无法打开$appName")
             }
         }
@@ -269,7 +266,6 @@ class VoiceService : Service(), OnNluResultListener {
     override fun conTellInfo(name: String) {
         L.i("conTellInfo:$name")
         addAiText(
-//            getString(R.string.text_voice_query_con_tell_info, name),
             "正在为你查询${name}的详情",
             object : VoiceTTS.OnTTSResultListener {
                 override fun ttsEnd() {
@@ -290,7 +286,7 @@ class VoiceService : Service(), OnNluResultListener {
 //                        ContactHelper.callPhone(list[0].phoneNumber)
 //                    }
 //                })
-            addAiText("正在为您呼叫$name", object :VoiceTTS.OnTTSResultListener{ // 保证Ai说完话后才调用呼叫
+            addAiText("正在为您呼叫$name", object : VoiceTTS.OnTTSResultListener { // 保证Ai说完话后才调用呼叫
                 override fun ttsEnd() {
                     ContactHelper.callPhone(list[0].phoneNumber)
                 }
@@ -304,11 +300,6 @@ class VoiceService : Service(), OnNluResultListener {
 
     // 拨打号码
     override fun callPhoneForNumber(phone: String) {
-//        addAiText(getString(R.string.text_voice_call), object : VoiceTTS.OnTTSResultListener {
-//            override fun ttsEnd() {
-//                ContactHelper.callPhone(phone)
-//            }
-//        })
         addAiText("正在为你拨打$phone", object : VoiceTTS.OnTTSResultListener {
             override fun ttsEnd() {
                 ContactHelper.callPhone(phone)
@@ -480,7 +471,6 @@ class VoiceService : Service(), OnNluResultListener {
 
     //天气详情
     override fun queryWeatherInfo(city: String) {
-//        addAiText(getString(R.string.text_voice_query_weather, city))
         addAiText("正在为您查询${city}的天气")
         ARouterHelper.startActivity(ARouterHelper.PATH_WEATHER, "city", city)
         hideWindow()
@@ -501,6 +491,24 @@ class VoiceService : Service(), OnNluResultListener {
         baseAddItem(bean)
         val text = city + "今天天气" + info + temperature + "°"
         VoiceManager.ttsStart(text, mOnTTSResultListener)
+    }
+
+    override fun playJoke(text: String) {
+        HttpManager.queryJoke(object : Callback<JokeOneData> {
+            override fun onFailure(call: Call<JokeOneData>, t: Throwable) {
+                L.i("onFailure:$t")
+                jokeError()
+            }
+
+            override fun onResponse(call: Call<JokeOneData>, response: Response<JokeOneData>) {
+                L.i("Joke onResponse")
+                addAiText(text, object : VoiceTTS.OnTTSResultListener {
+                    override fun ttsEnd() {
+                        hideWindow()
+                    }
+                })
+            }
+        })
     }
 
 }

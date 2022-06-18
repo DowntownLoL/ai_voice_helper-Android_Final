@@ -1,3 +1,6 @@
+/**
+ * @description: Json返回类型库
+ */
 package com.example.lib_voice.words
 
 object NluWrods {

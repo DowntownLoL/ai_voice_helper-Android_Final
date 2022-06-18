@@ -19,14 +19,14 @@
 
     <!--热门城市-->
     <array name="HotCityArray">
-        <item>深圳</item>
+        <item>北京</item>
         <item>广州</item>
-        <item>东莞</item>
-        <item>惠州</item>
-        <item>佛山</item>
-        <item>珠海</item>
+        <item>深圳</item>
+        <item>上海</item>
+        <item>重庆</item>
+        <item>成都</item>
         <item>长沙</item>
         <item>武汉</item>
-        <item>北京</item>
+        <item>南京</item>
     </array>
 </resources>

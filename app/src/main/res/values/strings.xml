@@ -7,11 +7,8 @@
         <item>天气</item>
         <item>星座</item>
         <item>笑话</item>
-        <item>地图</item>
         <item>应用管理</item>
         <item>语音设置</item>
-        <item>系统设置</item>
-        <item>开发者模式</item>
     </array>
 
 
@@ -21,11 +18,8 @@
         <item>@color/colorWeather</item>
         <item>@color/colorConstell</item>
         <item>@color/colorJoke</item>
-        <item>@color/colorMap</item>
         <item>@color/colorAppManager</item>
         <item>@color/colorVoiceSetting</item>
-        <item>@color/colorAppSystemSetting</item>
-        <item>@color/colorAppDeveloper</item>
     </array>
 
     <!--主页列表图标-->
@@ -33,11 +27,8 @@
         <item>@drawable/img_main_weather</item>
         <item>@drawable/img_main_contell</item>
         <item>@drawable/img_main_joke_icon</item>
-        <item>@drawable/img_main_map_icon</item>
         <item>@drawable/img_main_app_manager</item>
         <item>@drawable/img_main_voice_setting</item>
-        <item>@drawable/img_main_system_setting</item>
-        <item>@drawable/img_main_developer</item>
     </string-array>
 
 </resources>
